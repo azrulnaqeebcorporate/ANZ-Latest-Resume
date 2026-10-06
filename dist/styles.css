@@ -1,0 +1,957 @@
+/* ==========================================================================
+   Haesak — Resume Landing Page
+   Design system: see design.md (sticker-brutalist social media agency style)
+   ========================================================================== */
+
+:root {
+  --grey: #2E2E33;
+  --grey-light: #D9C2FF; /* light purple — group labels on purple panel */
+  --purple: #7A2BF5;
+  --ink: #0E0E10;
+  --white: #FFFFFF;
+  --gray: #C9C9C9;
+  --surface: #F2F2F2; /* light grey — hero + portfolio surfaces */
+  --card: #E6E6E6;    /* slightly darker grey — portfolio cards */
+
+  --font: "Poppins", system-ui, sans-serif;
+
+  --wrap: 1180px;
+  --panel-radius: 56px;
+  --rail-width: 112px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--white);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  /* clip (not hidden) so position: sticky still works */
+  overflow-x: clip;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+/* ==========================================================================
+   HERO (white)
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding: 56px 0 0; /* no bottom gap — photo connects flush with the dark panel */
+  background: var(--surface);
+}
+
+/* Corner microcopy tags — removed per rebrand */
+
+.hero__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: stretch;
+  gap: 32px;
+}
+
+/* Photo matches the headline block height exactly */
+.hero__media {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.hero__media img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  display: block;
+}
+
+/* Headline block */
+.hero__copy {
+  max-width: 640px;
+}
+
+.hero__title {
+  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin-top: 18px;
+}
+
+/* Keyword highlight boxes — alternate purple / lime */
+.hl {
+  display: inline-block;
+  color: var(--white);
+  padding: 0.02em 0.22em;
+  border-radius: 0.2em;
+  position: relative;
+}
+.hl--purple { background: var(--purple); }
+.hl--grey   { background: var(--grey); }
+
+/* Tilted stickers (max 2 per composition) */
+.sticker {
+  display: inline-block;
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.35em 0.9em;
+  border-radius: 14px;
+  line-height: 1;
+}
+.sticker--hello {
+  background: var(--grey);
+  transform: rotate(-7deg);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+}
+.sticker--for {
+  background: var(--purple);
+  transform: rotate(8deg);
+  font-size: 0.62em;
+  vertical-align: 0.35em;
+  margin-left: 0.25em;
+  border-radius: 0.25em;
+}
+
+/* Purple cursor arrow after final headline word */
+.cursor {
+  width: 0.75em;
+  height: auto;
+  margin-left: 0.18em;
+  transform: rotate(6deg) translateY(0.06em);
+}
+
+/* Hero CTA buttons */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--purple);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 15px 28px;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.btn:hover {
+  background: var(--ink);
+}
+.btn--dark {
+  background: var(--ink);
+}
+.btn--dark:hover {
+  background: var(--purple);
+}
+.btn__icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   LOWER AREA — full-width stacked panels (no sidebar)
+   ========================================================================== */
+
+.lower {
+  position: relative;
+  z-index: 2;
+}
+
+.stack {
+  min-width: 0;
+}
+
+/* ==========================================================================
+   PANELS
+   ========================================================================== */
+
+.panel {
+  position: relative;
+}
+.panel__inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+/* Dark panel — first "file": pins at the viewport top while the
+   purple panel slides over it (file-stacking scroll effect) */
+.panel--dark {
+  background: var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-top: 96px;
+  padding-bottom: 104px;
+}
+
+/* Purple panel — second "file": square, content near the top. NOT sticky:
+   with 5-8 bullets per role it exceeds the viewport, and a sticky panel
+   would hide its bottom content behind the next panel. The first pull
+   (dark -> purple) still plays; this panel then scrolls normally. */
+.panel--purple {
+  background: var(--purple);
+  position: relative;
+  z-index: 2;
+  padding-top: 72px;
+  padding-bottom: 112px;
+}
+
+/* Dark copy — third "file": slides over the purple panel and ends the page */
+.panel--end {
+  z-index: 3;
+  min-height: 100vh;
+}
+
+/* Light grey portfolio panel */
+.panel--light {
+  background: var(--surface);
+  position: relative;
+  z-index: 3;
+  padding-top: 96px;
+  padding-bottom: 104px;
+}
+.panel--light .section__label,
+.section__label--dark {
+  color: var(--ink);
+}
+
+/* Portfolio tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.tab {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.tab.is-active {
+  background: var(--ink);
+  color: var(--white);
+}
+.portfolio-print-title {
+  display: none;
+}
+
+/* Portfolio cards — website grid 2 columns (wide 16:9 thumbs),
+   graphic grid 3 columns (social-media-post 4:5 rectangles) */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.card-grid[hidden] {
+  display: none;
+}
+[data-panel="website"].card-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+[data-panel="graphic"].card-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+/* Video covers are vertical 9:16 reels — 3 columns, contain so nothing gets cropped */
+[data-panel="video"].card-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+[data-panel="development"].card-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+[data-panel="website"] .card__thumb {
+  aspect-ratio: 16 / 9;
+}
+[data-panel="graphic"] .card__thumb {
+  aspect-ratio: 4 / 5;
+}
+[data-panel="video"] .card__thumb {
+  aspect-ratio: 9 / 16;
+}
+[data-panel="video"] .card__img {
+  object-fit: contain;
+  background: #D8D8D8;
+}
+/* Landscape reel cover (e.g. ALVITALK 16:9) fills the 9:16 frame instead of letterboxing */
+[data-panel="video"] .card__img--cover {
+  object-fit: cover;
+  background: #D8D8D8;
+}
+/* Development covers are screenshots — contain so nothing gets cropped */
+[data-panel="development"] .card__thumb {
+  aspect-ratio: 16 / 9;
+}
+[data-panel="development"] .card__img {
+  object-fit: contain;
+  background: #D8D8D8;
+}
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card__thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  background: #D8D8D8;
+  overflow: hidden;
+}
+.card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Full-page cover: hovering the card scrolls the image from top to bottom.
+   Works by animating object-position on a cover-fitted tall strip —
+   no video needed, stays responsive at any card size. */
+.card__img--full {
+  object-position: 50% 0%;
+  transition: object-position 3.4s ease-in-out;
+}
+.card:hover .card__img--full,
+.card:focus-within .card__img--full {
+  object-position: 50% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__img--full {
+    transition: none;
+  }
+}
+
+/* Numbered brand thumbnail — used until a project cover image exists.
+   Alternates ink / purple per the alternating-accents rule. */
+.card__thumb--brand {
+  background: var(--ink);
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+}
+.card__thumb--alt {
+  background: var(--purple);
+}
+.card__num {
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Niche tag above the title */
+.card__niche {
+  color: var(--purple);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Label chips */
+.card__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.card__label {
+  background: rgba(14, 14, 16, 0.08);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+/* Description — clamped to two lines */
+.card__desc {
+  color: #4a4a4a;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card--expandable {
+  cursor: pointer;
+}
+.card--expandable:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 3px;
+}
+.card--expandable .card__cs dd {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Challenges / Solutions block (development cards) */
+.card__cs dt {
+  color: var(--purple);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.card__cs dd {
+  color: #4a4a4a;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.card__cs dd:last-child {
+  margin-bottom: 0;
+}
+.card__access {
+  color: #6a6a6a;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+.card__access b {
+  color: var(--ink);
+}
+
+/* Access credentials accordion */
+.card__accordion {
+  border: 1px solid rgba(14, 14, 16, 0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.card__accordion-title {
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card__accordion-title::-webkit-details-marker {
+  display: none;
+}
+.card__accordion-title::after {
+  content: "+";
+  color: var(--purple);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.card__accordion[open] .card__accordion-title::after {
+  transform: rotate(45deg);
+}
+.card__accordion .card__access {
+  margin-top: 8px;
+}
+
+.card__title {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.card__btn {
+  margin-top: auto;
+  background: var(--purple);
+  color: var(--white);
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.card__btn:hover {
+  background: var(--ink);
+}
+/* Disabled state — project link not available yet */
+.card__btn--off {
+  background: #B9B9B9;
+  cursor: default;
+}
+.card__btn--off:hover {
+  background: #B9B9B9;
+}
+
+/* Atlas detail dialog */
+.project-modal[hidden] {
+  display: none;
+}
+.project-modal {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.project-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 14, 16, 0.72);
+}
+.project-modal__content {
+  position: relative;
+  z-index: 1;
+  width: min(780px, 100%);
+  max-height: min(88vh, 940px);
+  overflow: auto;
+  border-radius: 16px;
+  padding: 20px;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.project-modal__img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #D8D8D8;
+}
+.project-modal__title {
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+.project-modal__content > p {
+  color: #4a4a4a;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.project-modal__close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Section: 28% label / 72% content */
+.section {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section__label {
+  color: var(--white);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Body text on dark panel */
+.body {
+  color: var(--gray);
+  font-size: 1.02rem;
+  line-height: 1.62;
+}
+
+/* ==========================================================================
+   ENTRIES, PILLS, CHIPS
+   ========================================================================== */
+
+/* Education — vertical stack, 10px gaps, grey titles,
+   date pill sits at the right side of the title */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+.edu-grid .entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+}
+.edu-grid .entry__title {
+  color: var(--gray);
+  flex: 1 1 auto;
+}
+.edu-grid .entry .pill {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+.edu-grid .entry__sub,
+.edu-grid .entry__points {
+  flex-basis: 100%;
+}
+
+.entry__title {
+  color: var(--white);
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.entry__sub {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* Bulleted detail points under entries */
+.entry__points {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--gray);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.entry__points li {
+  margin: 3px 0;
+}
+/* Grey bullets lack contrast on purple — use dimmed white instead */
+.panel--purple .entry__points {
+  color: rgba(255, 255, 255, 0.78);
+}
+/* Company bullet points: compact line spacing */
+.work-grid .entry__points {
+  display: grid;
+  row-gap: 4px;
+}
+.work-grid .entry__points li {
+  margin: 0;
+}
+
+/* Purple date pills */
+.pill {
+  display: inline-block;
+  margin-top: 12px;
+  background: var(--purple);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 8px 18px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+/* Work experience — vertical stack, 10px gaps between companies,
+   duration in its own black label at the right of the company name */
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+.work-grid .entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+}
+.work-grid .entry__title {
+  flex: 1 1 auto;
+}
+.work-grid .pill {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+.work-grid .entry__sub,
+.work-grid .entry__points {
+  flex-basis: 100%;
+}
+.pill--dark {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Softwares & Tools — grouped by function */
+.soft-groups {
+  display: grid;
+  row-gap: 32px;
+}
+.soft-group__label {
+  color: var(--grey-light);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* Software — vertical stack, 10px gaps, name + level on one row */
+.soft-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.chip {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.chip__name {
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.chip__level {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   WORD ROTATOR (hero keyword switcher)
+   ========================================================================== */
+
+/* Horizontal word rotator — words slide left-to-right */
+.rotator {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* vertical breathing room so ascenders/descenders never clip */
+  margin: -0.09em 0;
+  padding: 0.09em 0;
+  transition: width 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.rotator__track {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.rotator__word {
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   SCROLL REVEAL (sections fade up on scroll)
+   ========================================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .rotator__track {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 960px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .hero__copy {
+    order: 1;
+    padding-bottom: 40px;
+  }
+  .hero__media {
+    order: 2;
+  }
+  .hero__media img {
+    height: auto;
+    width: min(320px, 78%);
+  }
+
+  .panel--dark   { padding-top: 64px; padding-bottom: 80px; }
+  .panel--purple { padding-top: 64px; padding-bottom: 96px; }
+
+  .panel__inner { padding-inline: 28px; }
+
+  [data-panel="website"].card-grid,
+  [data-panel="graphic"].card-grid,
+  [data-panel="video"].card-grid,
+  [data-panel="development"].card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+}
+
+@media (max-width: 460px) {
+  .wrap { padding-inline: 24px; }
+  [data-panel="website"].card-grid,
+  [data-panel="graphic"].card-grid,
+  [data-panel="development"].card-grid {
+    grid-template-columns: 1fr;
+  }
+  [data-panel="video"].card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
+   PRINT / PDF
+   Portfolio categories print as separate pages instead of interactive tabs.
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  body {
+    background: var(--white);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .btn-row,
+  .tabs,
+  .card__btn,
+  .card__accordion,
+  .project-modal {
+    display: none !important;
+  }
+  .panel,
+  .panel--dark,
+  .panel--purple,
+  .panel--light {
+    color: var(--ink);
+    background: var(--white);
+    padding: 0;
+  }
+  .panel__inner,
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+  .section {
+    display: block;
+    margin: 0 0 8mm;
+  }
+  .section__label {
+    color: var(--ink);
+    margin-bottom: 4mm;
+  }
+  .portfolio-print-title {
+    display: block;
+    break-before: page;
+    page-break-before: always;
+    color: var(--ink);
+    font-size: 18pt;
+    margin: 0 0 4mm;
+  }
+  .card-grid,
+  .card-grid[hidden] {
+    display: grid !important;
+    gap: 3mm;
+  }
+  [data-panel="website"].card-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  [data-panel="graphic"].card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  [data-panel="video"].card-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  [data-panel="development"].card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card {
+    break-inside: avoid;
+    padding: 2.5mm;
+    gap: 1.5mm;
+    border-radius: 3mm;
+    background: #F2F2F2;
+  }
+  .card__thumb,
+  [data-panel="website"] .card__thumb,
+  [data-panel="graphic"] .card__thumb,
+  [data-panel="video"] .card__thumb,
+  [data-panel="development"] .card__thumb {
+    aspect-ratio: 16 / 9;
+  }
+  [data-panel="video"] .card__thumb {
+    aspect-ratio: 9 / 16;
+  }
+  .card__img,
+  [data-panel="video"] .card__img,
+  [data-panel="development"] .card__img {
+    object-fit: cover;
+  }
+  .card__niche {
+    font-size: 5.5pt;
+  }
+  .card__title {
+    font-size: 7pt;
+    line-height: 1.25;
+  }
+  .card__labels,
+  .card__desc,
+  .card__cs,
+  .card__access {
+    display: none;
+  }
+  .card--expandable {
+    cursor: default;
+  }
+}
